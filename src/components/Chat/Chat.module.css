@@ -1,0 +1,38 @@
+.chat {
+  width: 75%;
+  background-color: #ccc;
+  padding: 1rem;
+  border-radius: 10px;
+  color: black;
+  margin: auto;
+  height: fit-content;
+}
+
+.chatHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 1rem auto;
+  align-items: center;
+}
+
+.chatBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 600px;
+}
+
+.chatMessagesArea {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  scroll-behavior: smooth;
+  gap: 3px;
+  padding-bottom: 3px;
+  height: 90%;
+}
+
+.chatMessageWrite {
+  display: flex;
+}

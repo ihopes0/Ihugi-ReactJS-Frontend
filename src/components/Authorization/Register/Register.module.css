@@ -1,0 +1,19 @@
+.form {
+  max-width: 500px;
+  width: 100%;
+  background-color: #ccc;
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: lightgreen;
+  margin: auto;
+  color: black;
+}
+
+.textFieldContainer {
+  margin-bottom: 0.5rem;
+}
+
+.textField {
+  display: flex;
+  flex-direction: column;
+}

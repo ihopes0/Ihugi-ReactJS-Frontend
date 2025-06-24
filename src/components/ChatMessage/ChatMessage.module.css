@@ -1,0 +1,20 @@
+.messageContainer {
+    margin: 0;
+    padding: 0;
+    display: block;
+    width: fit-content;
+  }
+  
+  .messageBody {
+    padding: 0.5rem 1rem;
+    background-color: #747bff;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  .userName {
+    color: #616161;
+    font-size: 12px;
+  }
+  
