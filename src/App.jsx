@@ -4,7 +4,6 @@ import Header from './components/Header/Header'
 import WaitingRoom from './components/WaitingRoom/WaitingRoom'
 import { useState } from 'react'
 import Chat from './components/Chat/Chat'
-import axios from 'axios';
 import Register from './components/Authorization/Register/Register';
 
 export default function App() {
@@ -45,17 +44,7 @@ export default function App() {
   }
 
   const sendMessage = (message) => {
-    // axios
-    //   .post(`//localhost:5102/api/chats/f1cd55ab-ff61-4537-bd58-c6e9f9c1b637:post-message`, {
-    //     authorId: '82c28ae8-19e1-4bc4-9ef1-1f4bf5aab753',
-    //     content: message
-    //   })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //   });
-    //     console.log(message)
-
-    connection.invoke('SendMessageAsync', message)
+     connection.invoke('SendMessageAsync', message)
   }
 
   const closeChat = async () => {
@@ -78,8 +67,8 @@ export default function App() {
         ) : (
           <WaitingRoom joinChat={joinChat}/>
         )}
-        {/* <br /><hr /><br /> */}
-        {/* <Register/> */}
+        { <hr/> }
+        { <Register/> }
       </main>
     </>
   )

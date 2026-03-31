@@ -8,13 +8,12 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '../../UI/button/Button/Button'
 import classes from './Register.module.css'
-import axios from '../../../api/axios'
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#%$]).{8,24}$/
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-const REGISTER_URL = '/api/users'
+const REGISTER_URL = 'http://localhost:5102/api/users'
 
 function Register() {
   const userRef = useRef()
@@ -84,17 +83,21 @@ function Register() {
       return
     }
     try {
-      const response = await axios.post(
-        REGISTER_URL,
-        JSON.stringify({ Name: user, Password: pwd, Email: email }),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        }
+      let response = await fetch(
+        REGISTER_URL, {
+	method: 'POST',
+	withCredentials: true,
+        headers: { 'Content-Type': 'application/json' },
+	body: JSON.stringify({ Name: user, Password: pwd, Email: email })} 
       )
-      console.log(response.data)
+
+      let result = await response.json()
+      console.log(result)
       setSuccess(true)
-    } catch (error) {}
+    } catch (error) {
+	console.log(error)
+	setSuccess(false)
+    }
   }
 
   return (
