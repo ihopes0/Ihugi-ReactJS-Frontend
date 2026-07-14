@@ -2,15 +2,60 @@ import { HubConnectionBuilder } from '@microsoft/signalr'
 import React from "react";
 import Header from './components/Header/Header'
 import WaitingRoom from './components/WaitingRoom/WaitingRoom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Chat from './components/Chat/Chat'
 import Register from './components/Authorization/Register/Register';
+import {
+    getChats,
+    createChat,
+    deleteChat
+} from "./api/chatService";
+import Login from './components/Authorization/Login/Login';
 
 export default function App() {
   const [connection, setConnection] = useState(null)
   const [chatName, setChatName] = useState('')
   const [messages, setMessages] = useState([])
+  const [chats, setChats] = useState([]);
+  const [loadingChats, setLoadingChats] = useState(false);
   const [user, setUser] = useState({ name: '' })
+
+  useEffect(() => {
+    loadChats();
+}, []);
+
+async function loadChats() {
+    setLoadingChats(true);
+
+    try {
+        const result = await getChats();
+        console.log(result);
+        setChats(result.chats ?? result);
+    }
+    finally {
+        setLoadingChats(false);
+    }
+}
+
+async function handleCreateChat() {
+    const name = prompt("Chat name");
+
+    if (!name)
+        return;
+
+    await createChat(name);
+
+    await loadChats();
+}
+
+async function handleDeleteChat(id) {
+    if (!window.confirm("Delete this chat?"))
+        return;
+
+    await deleteChat(id);
+
+    await loadChats();
+}
 
   const joinChat = async (userName, chatName) => {
     var connection = new HubConnectionBuilder()
@@ -43,20 +88,36 @@ export default function App() {
     }
   }
 
-  const sendMessage = (message) => {
-     connection.invoke('SendMessageAsync', message)
-  }
-
   const closeChat = async () => {
     connection.stop()
     setConnection(null)
     setMessages([])
     setChatName('')
   }
+  // TODO: add router
   return (
     <>
       <Header />
       <main>
+        <button onClick={handleCreateChat}>
+            Create chat
+          </button>
+
+          {loadingChats && <p>Loading chats...</p>}
+
+        <ul>
+          {chats.map(chat => (
+            <li key={chat.id}>
+              <strong>{chat.name}</strong>
+
+              <button
+                onClick={() => handleDeleteChat(chat.id)}
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
         {connection ? (
           <Chat
             messages={messages}
@@ -69,6 +130,7 @@ export default function App() {
         )}
         { <hr/> }
         { <Register/> }
+        { <Login/> }
       </main>
     </>
   )

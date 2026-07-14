@@ -276,7 +276,7 @@ function Register() {
             <p style={{ margin: '0px' }}>
               Есть аккаунт?
               <br />
-              <a href='#'>Войти</a>
+              <a href='/login'>Войти</a>
             </p>
           </form>
         </section>
